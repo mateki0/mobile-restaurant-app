@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import Home from "./screens/Home";
+import About from "./screens/About";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Contact from "./screens/Contact";
+import Menu from "./screens/Menu";
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color }) => {
+            let iconName;
+            color = focused ? "tomato" : "gray";
+            if (route.name === "Home") {
+              iconName = "ios-home";
+            } else if (route.name === "About") {
+              iconName = "ios-information-circle";
+            } else if (route.name === "Contact") {
+              iconName = "ios-call";
+            } else if (route.name === "Menu") {
+              iconName = "ios-menu";
+            }
+            return <Ionicons name={iconName} size={20} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "tomato",
+          inactiveTintColor: "gray",
+        }}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="About" component={About} />
+        <Tab.Screen name="Contact" component={Contact} />
+        <Tab.Screen name="Menu" component={Menu} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
